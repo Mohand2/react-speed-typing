@@ -1,10 +1,14 @@
-import React, { useState, use } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function Game() {
+  const TIMEOUT = 15;
   const [words, setwords] = useState([]);
   const [inputWord, setInputWord] = useState('');
-
-  console.log(words);
+  // const [isDisabled, setisDisabled] = useState(true);
+  const [timeout, settimeout] = useState(TIMEOUT);
+  const textAreaRef = useRef();
+  const btnRef = useRef();
+  const ResetbtnRef = useRef();
 
   // utility function to split string into an array then return the last word entred
   function getWordToAdd(inputWord) {
@@ -21,7 +25,7 @@ function Game() {
     // wordToBeAdded = koukou
     return wordToBeAdded;
   }
-
+  // add word to the list
   function addWord(e) {
     if (e.code === 'Space') {
       // get the last entred word then add it to the list of words
@@ -42,6 +46,48 @@ function Game() {
     setInputWord(e.target.value);
   }
 
+  function enableTextArea() {
+    textAreaRef.current.removeAttribute('disabled');
+  }
+
+  function disableTextArea() {
+    textAreaRef.current.setAttribute('disabled', true);
+  }
+
+  function enableBtn() {
+    btnRef.current.removeAttribute('disabled');
+  }
+
+  function disableBtn() {
+    btnRef.current.setAttribute('disabled', true);
+  }
+
+  function startGame() {
+    enableTextArea();
+    disableBtn();
+    timeOut();
+  }
+
+  function initGame() {
+    disableTextArea();
+    enableBtn();
+    settimeout(TIMEOUT);
+    setInputWord('');
+  }
+
+  function timeOut() {
+    console.log('oooo');
+    const timeToEnd = setInterval(() => {
+      settimeout((t) => {
+        if (t > 0) {
+          return (t -= 1);
+        } else {
+          initGame();
+          clearInterval(timeToEnd);
+        }
+      });
+    }, 1000);
+  }
   return (
     <div className="Game">
       <h1>How fast do you type?</h1>
@@ -54,6 +100,7 @@ function Game() {
       <p>Typed Words: {words.length}</p>
 
       <textarea
+        ref={textAreaRef}
         name="typing-area"
         id="typing-area"
         className="typing-textarea"
@@ -61,10 +108,25 @@ function Game() {
         value={inputWord}
         onChange={handleInputWord}
         onKeyUp={addWord}
+        disabled
       ></textarea>
 
-      <p className="time-remaining">Time remaining: 0</p>
-      <button type="submit">Start</button>
+      <p className="time-remaining">Time remaining: {timeout}</p>
+
+      <div className="btns">
+        <button ref={btnRef} type="submit" onClick={startGame}>
+          Start
+        </button>
+        <button
+          ref={ResetbtnRef}
+          type="submit"
+          onClick={() => {
+            setwords([]);
+          }}
+        >
+          Reset Words
+        </button>
+      </div>
     </div>
   );
 }

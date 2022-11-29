@@ -43,6 +43,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button:disabled {
+  background-color: rgb(66, 53, 27);
+  color: #535353;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
