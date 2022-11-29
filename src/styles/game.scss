@@ -60,3 +60,15 @@ h1 {
   // align-items: center;
   gap: 1rem;
 }
+
+.tags-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 7px 10px;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+}

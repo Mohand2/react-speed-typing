@@ -91,11 +91,12 @@ function Game() {
   return (
     <div className="Game">
       <h1>How fast do you type?</h1>
-      <ol>
+
+      <div className="tags-list">
         {words.map((word) => (
-          <li>{word}</li>
+          <p className="tag">{word}</p>
         ))}
-      </ol>
+      </div>
 
       <p>Typed Words: {words.length}</p>
 
