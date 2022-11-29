@@ -11,6 +11,9 @@ function Game() {
         className="typing-textarea"
         placeholder="Start typing..."
       ></textarea>
+
+      <p className="time-remaining">Time remaining: 0</p>
+      <button type="submit">Start</button>
     </div>
   );
 }

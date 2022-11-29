@@ -1,7 +1,13 @@
 .Game {
-  color: var(--accent-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   width: 95%;
+  height: 80vh;
   margin: 3rem auto;
+  color: var(--accent-color);
+
   // border: 2px dashed red;
 }
 
@@ -17,8 +23,8 @@ h1 {
 // Textarea //
 
 .typing-textarea {
-  min-height: 11rem;
-  width: 100%;
+  min-height: 17rem;
+  width: 70%;
   color: rgb(166, 166, 166);
   background-color: #2b2b2b;
   font-family: 'Roboto', sans-serif;
@@ -40,3 +46,10 @@ h1 {
 }
 
 // Textarea //
+
+// Time Remaining //
+
+.time-remaining {
+  margin: 1rem 0;
+}
+// Time Remaining //
