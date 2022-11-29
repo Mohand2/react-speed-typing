@@ -8,7 +8,7 @@ function Game() {
       <textarea
         name="typing-area"
         id="typing-area"
-        className="textarea"
+        className="typing-textarea"
         placeholder="Start typing..."
       ></textarea>
     </div>
