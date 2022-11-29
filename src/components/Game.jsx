@@ -1,14 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 function Game() {
-  const TIMEOUT = 15;
+  // const TIMEOUT = 15;
+
   const [words, setwords] = useState([]);
   const [inputWord, setInputWord] = useState('');
-  // const [isDisabled, setisDisabled] = useState(true);
-  const [timeout, settimeout] = useState(TIMEOUT);
+  const [initTime, setinitTime] = useState(15);
+  const [timeout, settimeout] = useState(initTime);
+  const [isTextAreaDisabled, setisTextAreaDisabled] = useState(true);
+  const [isEditTimeShown, setisEditTimeShown] = useState(false);
+
   const textAreaRef = useRef();
   const btnRef = useRef();
   const ResetbtnRef = useRef();
+  const RestartbtnRef = useRef();
+  const intervalRef = useRef();
 
   // utility function to split string into an array then return the last word entred
   function getWordToAdd(inputWord) {
@@ -48,10 +54,12 @@ function Game() {
 
   function enableTextArea() {
     textAreaRef.current.removeAttribute('disabled');
+    setisTextAreaDisabled(false);
   }
 
   function disableTextArea() {
     textAreaRef.current.setAttribute('disabled', true);
+    setisTextAreaDisabled(true);
   }
 
   function enableBtn() {
@@ -64,26 +72,27 @@ function Game() {
 
   function startGame() {
     enableTextArea();
+    textAreaRef.current.focus();
     disableBtn();
     timeOut();
   }
 
   function initGame() {
+    clearInterval(intervalRef.current);
     disableTextArea();
     enableBtn();
-    settimeout(TIMEOUT);
+    settimeout(initTime);
     setInputWord('');
   }
 
   function timeOut() {
-    console.log('oooo');
-    const timeToEnd = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       settimeout((t) => {
         if (t > 0) {
           return (t -= 1);
         } else {
           initGame();
-          clearInterval(timeToEnd);
+          clearInterval(intervalRef.current);
         }
       });
     }, 1000);
@@ -98,21 +107,25 @@ function Game() {
         ))}
       </div>
 
-      <p>Typed Words: {words.length}</p>
+      <p className="word-count">Typed Words: {words.length}</p>
 
       <textarea
         ref={textAreaRef}
         name="typing-area"
         id="typing-area"
         className="typing-textarea"
-        placeholder="Start typing..."
+        placeholder={
+          isTextAreaDisabled
+            ? 'press start button to start typing!'
+            : 'start typing...'
+        }
         value={inputWord}
         onChange={handleInputWord}
         onKeyUp={addWord}
         disabled
       ></textarea>
 
-      <p className="time-remaining">Time remaining: {timeout}</p>
+      <p className="time-remaining">Time remaining: {timeout}s</p>
 
       <div className="btns">
         <button ref={btnRef} type="submit" onClick={startGame}>
@@ -127,6 +140,48 @@ function Game() {
         >
           Reset Words
         </button>
+        <button
+          ref={RestartbtnRef}
+          type="submit"
+          onClick={() => {
+            setwords([]);
+            initGame();
+          }}
+        >
+          Restart
+        </button>
+      </div>
+      <div className="timeout-container">
+        <button
+          title="edit time"
+          className="timeout-btn"
+          onClick={() => {
+            setisEditTimeShown((isE) => !isE);
+          }}
+        >
+          ⏱
+        </button>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            initGame();
+          }}
+        >
+          <input
+            title="edit time"
+            type="number"
+            name="time"
+            id="time"
+            placeholder="edit time"
+            className={`timeout-input ${isEditTimeShown ? '' : 'hide'}`}
+            value={initTime}
+            onChange={(e) => {
+              setinitTime(e.target.value);
+              initGame();
+            }}
+          />
+        </form>
       </div>
     </div>
   );
