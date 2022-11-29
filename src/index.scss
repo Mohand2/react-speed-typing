@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   font-family: 'Press Start 2P', cursive;
   font-size: 16px;
@@ -46,3 +52,4 @@ button:focus-visible {
 }
 
 @import './styles/game.scss';
+@import './styles/app.scss';
