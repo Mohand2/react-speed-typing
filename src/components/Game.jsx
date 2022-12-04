@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function Game() {
+function Game({ GameTitle }) {
   // const TIMEOUT = 15;
 
   const [words, setwords] = useState([]);
@@ -99,6 +99,7 @@ function Game() {
   }
   return (
     <div className="Game">
+      <h3>{GameTitle}</h3>
       <h1>How fast do you type?</h1>
 
       <div className="tags-list">
